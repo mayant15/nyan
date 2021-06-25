@@ -5,41 +5,57 @@
 
 TEST_CASE("compose")
 {
-    constexpr auto increment = [](const auto x){ return x + 1; };
-    constexpr auto inc_and_double = nyan::compose(
-        [](const auto x){ return x * 2; },
-        increment
-    );
+    SUBCASE("integer")
+    {
+        constexpr auto increment = [](const auto x){ return x + 1; };
+        constexpr auto inc_and_double = nyan::compose(
+            [](const auto x){ return x * 2; },
+            increment
+        );
 
-    CHECK(inc_and_double(2) == 6);
+        CHECK(inc_and_double(2) == 6);
+    }
 
-    constexpr auto push = [](auto vec) { vec.push_back(10); return vec; };
-    constexpr auto double_push = nyan::compose(
-        push,
-        push
-    );
+    SUBCASE("vector")
+    {
+        constexpr auto push = [](auto vec) { vec.push_back(10); return vec; };
+        constexpr auto double_push = nyan::compose(
+            push,
+            push
+        );
 
-    std::vector<int> vec = { 2 };
-    vec = double_push(vec);
-    CHECK(vec.size() == 3);
-    CHECK(vec[0] == 2);
-    CHECK(vec[1] == 10);
-    CHECK(vec[2] == 10);
+        std::vector<int> vec = { 2 };
+        vec = double_push(vec);
+        CHECK(vec.size() == 3);
+        CHECK(vec[0] == 2);
+        CHECK(vec[1] == 10);
+        CHECK(vec[2] == 10);
 
-    constexpr auto sum = [](const auto vec) {
-        decltype(vec)::value_type s {};
-        for (const auto& x : vec) {
-            s += x;
-        }
-        return s;
-    };
-    constexpr auto push_and_sum = nyan::compose(sum, push);
+        constexpr auto sum = [](const auto vec) {
+            decltype(vec)::value_type s {};
+            for (const auto& x : vec) {
+                s += x;
+            }
+            return s;
+        };
+        constexpr auto push_and_sum = nyan::compose(sum, push);
 
-    auto val = push_and_sum(vec);
-    CHECK(val == 32);
-    // push_and_sum should not have any side-effects, check
-    CHECK(vec.size() == 3);
-    CHECK(vec[0] == 2);
-    CHECK(vec[1] == 10);
-    CHECK(vec[2] == 10);
+        auto val = push_and_sum(vec);
+        CHECK(val == 32);
+        // push_and_sum should not have any side-effects, check
+        CHECK(vec.size() == 3);
+        CHECK(vec[0] == 2);
+        CHECK(vec[1] == 10);
+        CHECK(vec[2] == 10);
+    }
+
+    SUBCASE("more_than_two")
+    {
+        constexpr auto a = [](const auto x) { return x + 3; };
+        constexpr auto b = [](const auto y) { return y * 2; };
+        constexpr auto c = [](const auto z) { return z + 2; };
+
+        constexpr auto transform = nyan::compose(a, b, c);
+        CHECK(transform(2) == 11);
+    }
 }

@@ -22,10 +22,20 @@ template<> struct nyan::Monoid<TYPE> { \
 
 namespace nyan
 {
-    template<class OuterFunc, class InnerFunc>
-    constexpr decltype(auto) compose(OuterFunc outer, InnerFunc inner)
+    template<class OuterFunc>
+    constexpr decltype(auto) compose(OuterFunc outer)
     {
-        return [=](const auto x) { return outer(inner(x)); };
+        return [=](const auto x) { return outer(x); };
+    }
+
+    template<class OuterFunc, class... InnerFuncs>
+    constexpr decltype(auto) compose(OuterFunc outer, InnerFuncs... inners)
+    {
+        return [=](const auto x) { 
+            return outer(
+                std::invoke(compose(inners...), x)
+            ); 
+        };
     }
 
     template<class Type>
