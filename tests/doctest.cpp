@@ -3,3 +3,4 @@
 
 #include "compose.h"
 #include "monoid.h"
+#include "monad.h"
