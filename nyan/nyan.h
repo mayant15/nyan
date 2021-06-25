@@ -1,3 +1,12 @@
+/*!
+ * nyan - functional programming utilities for C++
+ *
+ * Copyright (c) 2021 Mayant Mukul
+ * Distributed under the MIT License. See the LICENSE file at
+ * https://github.com/mayant15/nyan/blob/main/LICENSE
+ * 
+ */
+
 #pragma once
 
 #include <functional>
