@@ -2,3 +2,4 @@
 #include "doctest.h"
 
 #include "compose.h"
+#include "monoid.h"
