@@ -1,9 +1,12 @@
 #pragma once
 
-namespace nyan 
+#include <functional>
+
+namespace nyan
 {
-    int hello() 
+    template<class OuterFunc, class InnerFunc>
+    constexpr decltype(auto) compose(OuterFunc outer, InnerFunc inner)
     {
-        return 2;
+        return [=](const auto x) { return outer(inner(x)); };
     }
 }
