@@ -2,6 +2,7 @@
 
 #include <nyan/nyan.h>
 #include "doctest.h"
+#include <utility>
 
 TEST_CASE("compose")
 {
@@ -49,7 +50,7 @@ TEST_CASE("compose")
         CHECK(vec[2] == 10);
     }
 
-    SUBCASE("more_than_two")
+    SUBCASE("more_than_two_functions")
     {
         constexpr auto a = [](const auto x) { return x + 3; };
         constexpr auto b = [](const auto y) { return y * 2; };
@@ -57,5 +58,27 @@ TEST_CASE("compose")
 
         constexpr auto transform = nyan::compose(a, b, c);
         CHECK(transform(2) == 11);
+    }
+
+    SUBCASE("more_than_two_arguments")
+    {
+        constexpr auto a = [](const auto x, const auto y) { return std::pair { x + y, 2}; };
+        constexpr auto b = [](const auto x, const auto y) { return std::tuple {x * y, 2, 3}; };
+        constexpr auto c = [](const auto x, const auto y, const auto z) { return x - y + z; };
+
+        CHECK(nyan::compose(a)(2, 3).first == 5);
+        CHECK(std::get<0>(nyan::compose(b, a)(2, 3)) == 10);
+        CHECK(nyan::compose(c, b, a)(2, 3) == 11);
+    }
+
+    SUBCASE("detail::is_tuple_like")
+    {
+        CHECK(nyan::detail::is_tuple_like<std::tuple<int, bool, double>>::value);
+        CHECK(nyan::detail::is_tuple_like<std::pair<int, bool>>::value);
+        CHECK(nyan::detail::is_tuple_like<std::array<double, 8>>::value);
+
+        struct hello {};
+        CHECK_FALSE(nyan::detail::is_tuple_like<hello>::value);
+        CHECK_FALSE(nyan::detail::is_tuple_like<int>::value);
     }
 }
