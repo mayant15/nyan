@@ -9,9 +9,7 @@
 
 #pragma once
 
-#include <functional>
-#include <type_traits>
-#include <tuple>
+#include "functors.h"
 
 #define NYAN_DECLARE_MONOID(TYPE, IDENTITY, OPERATOR) \
     template <>                                       \
@@ -109,31 +107,5 @@ namespace nyan
         {
             return Type{};
         }
-    };
-
-    template <class Type>
-    struct Id
-    {
-        Id(Type data) : _data(data) {}
-
-        template <class Function>
-        Id map(Function func)
-        {
-            return Id(func(_data));
-        }
-
-        template <class Function>
-        Type fold(Function func)
-        {
-            return func(_data);
-        }
-
-        Type unwrap() const
-        {
-            return _data;
-        }
-
-    private:
-        Type _data;
     };
 }
