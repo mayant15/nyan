@@ -1,10 +1,10 @@
 build/
+dist/
+node_modules/
+coverage/
+
 .vscode/
 .vs/
 .idea/
 
-*.out
-*.exe
-*.o
-*.so
-*.a
+*.log

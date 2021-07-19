@@ -1,0 +1,34 @@
+{
+  "name": "nyan",
+  "version": "1.0.0",
+  "description": "Functional programming utilities for TypeScript",
+  "author": "Mayant Mukul",
+  "license": "MIT",
+  "repository": "https://github.com/mayant15/nyan.git",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "bench": "echo benchmarking has not been set up!"
+  },
+  "files": [
+    "build/**/*"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/jest": "^26.0.24",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
