@@ -9,7 +9,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --verbose ./tests",
     "bench": "echo benchmarking has not been set up!"
   },
   "files": [

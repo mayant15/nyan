@@ -1,6 +1,3 @@
-export const compose =
-  (f: any, g: any): any =>
-  (x: any): any =>
-    f(g(x))
+export const compose = (f, g) => x => f(g(x))
 
-export const sum = (x: number, y: number): any => x + y
+export const curry = f => x => y => f(x, y)
