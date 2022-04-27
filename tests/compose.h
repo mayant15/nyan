@@ -32,8 +32,8 @@ TEST_CASE("compose")
         CHECK(vec[1] == 10);
         CHECK(vec[2] == 10);
 
-        constexpr auto sum = [](const auto vec) {
-            decltype(vec)::value_type s {};
+        constexpr auto sum = [](const std::vector<int>& vec) {
+            int s = 0;
             for (const auto& x : vec) {
                 s += x;
             }
